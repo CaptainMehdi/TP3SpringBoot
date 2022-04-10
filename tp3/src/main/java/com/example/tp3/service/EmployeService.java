@@ -1,21 +1,23 @@
 package com.example.tp3.service;
 
-import com.example.tp3.repository.*;
+import com.example.tp3.model.personne.Client;
+import com.example.tp3.repository.ClientRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmployeService {
-    private final DocumentRepository documentRepository;
-    private final LivreRepository livreRepository;
-    private final CdRepository cdRepository;
-    private final DvdRepository dvdRepository;
-    private final ClientRepository clientRepository;
-    private final EmpruntRepository empruntRepository;
 
-    public EmployeService(DocumentRepository documentRepository, LivreRepository livreRepository, CdRepository cdRepository, DvdRepository dvdRepository, ClientRepository clientRepository, EmpruntRepository empruntRepository) {
-        this.documentRepository = documentRepository;
-        this.livreRepository = livreRepository;
-        this.cdRepository = cdRepository;
-        this.dvdRepository = dvdRepository;
+    private ClientRepository clientRepository;
+
+    public EmployeService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.empruntRepository = empruntRepository;
+    }
+
+    public Client saveClient(Client client){
+        return clientRepository.save(client);
+    }
+
+    public Client saveClient(String nom, String prenom, String adresse){
+        return clientRepository.save(new Client(nom,prenom,adresse));
     }
 }
