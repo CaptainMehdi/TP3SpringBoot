@@ -13,7 +13,8 @@ public class Cd extends Document {
     private int duree;
     private String genre;
 
-    public Cd(int duree, String genre) {
+    public Cd(String titre, int datePublication, int duree, String genre,boolean disponible) {
+        super(titre, datePublication,disponible);
         this.duree = duree;
         this.genre = genre;
     }

@@ -16,7 +16,8 @@ public class Livre extends Document {
     private int nombrePage;
     private String genre;
 
-    public Livre(String auteur, String editeur, int nombrePage, String genre) {
+    public Livre(String titre, int datePublication, String auteur, String editeur, int nombrePage, String genre,boolean disponible) {
+        super(titre, datePublication,disponible);
         this.auteur = auteur;
         this.editeur = editeur;
         this.nombrePage = nombrePage;

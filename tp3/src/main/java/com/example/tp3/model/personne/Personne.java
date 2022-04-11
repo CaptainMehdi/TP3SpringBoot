@@ -22,5 +22,13 @@ public class Personne {
         this.prenom = prenom;
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", address='" + address + '\'';
+    }
 }
 

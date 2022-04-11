@@ -15,10 +15,11 @@ public class Document {
     private long id;
     private String titre;
     private int datePublication;
+    private boolean disponible;
 
-    public Document(int id, String titre, int datePublication) {
-        this.id = id;
+    public Document(String titre, int datePublication,boolean disponible) {
         this.titre = titre;
         this.datePublication = datePublication;
+        this.disponible = disponible;
     }
 }
