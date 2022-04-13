@@ -24,6 +24,10 @@ public class Client extends Personne {
         super(nom, prenom, adresse);
     }
 
+    public void addEmprunt(Emprunt emprunt){
+        listEmprunt.add(emprunt);
+    }
+
     @Override
     public String toString() {
         return "Client{" +super.toString()+

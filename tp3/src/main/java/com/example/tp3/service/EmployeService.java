@@ -1,15 +1,15 @@
 package com.example.tp3.service;
 
+import com.example.tp3.model.Emprunt;
 import com.example.tp3.model.document.Cd;
+import com.example.tp3.model.document.Document;
 import com.example.tp3.model.document.Dvd;
 import com.example.tp3.model.document.Livre;
 import com.example.tp3.model.personne.Client;
-import com.example.tp3.model.personne.Employe;
-import com.example.tp3.repository.CdRepository;
-import com.example.tp3.repository.ClientRepository;
-import com.example.tp3.repository.DvdRepository;
-import com.example.tp3.repository.LivreRepository;
+import com.example.tp3.repository.*;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class EmployeService {
@@ -18,12 +18,14 @@ public class EmployeService {
     private LivreRepository livreRepository;
     private DvdRepository dvdRepository;
     private CdRepository cdRepository;
+    private DocumentRepository documentRepository;
 
-    public EmployeService(ClientRepository clientRepository, LivreRepository livreRepository, DvdRepository dvdRepository, CdRepository cdRepository) {
+    public EmployeService(ClientRepository clientRepository, LivreRepository livreRepository, DvdRepository dvdRepository, CdRepository cdRepository, DocumentRepository documentRepository) {
         this.clientRepository = clientRepository;
         this.livreRepository = livreRepository;
         this.dvdRepository = dvdRepository;
         this.cdRepository = cdRepository;
+        this.documentRepository = documentRepository;
     }
 
     public Client saveClient(Client client) {
@@ -38,25 +40,46 @@ public class EmployeService {
         return livreRepository.save(livre);
     }
 
-    public Livre saveLivre(String titre, int datePublication, String auteur, String editeur, int nombrePage, String genre) {
-        return livreRepository.save(new Livre(titre, datePublication, auteur, editeur, nombrePage, genre));
+    public Livre saveLivre(String titre, int datePublication, String auteur, String editeur, int nombrePage, String genre, boolean dispo) {
+        return livreRepository.save(new Livre(titre, datePublication, auteur, editeur, nombrePage, genre, dispo));
     }
 
     public Dvd saveDvd(Dvd dvd) {
         return dvdRepository.save(dvd);
     }
 
-    public Dvd saveDvd(String titre, int datePublication, int duree, String genre) {
-        return dvdRepository.save(new Dvd(titre, datePublication, duree, genre));
+    public Dvd saveDvd(String titre, int datePublication, int duree, String genre, boolean dispo) {
+        return dvdRepository.save(new Dvd(titre, datePublication, duree, genre, dispo));
     }
 
-    public Cd saveCd(Cd cd){
+    public Cd saveCd(Cd cd) {
         return cdRepository.save(cd);
     }
-    public Cd saveCd(String titre, int datePublication, int duree, String genre){
-        return cdRepository.save(new Cd(titre,datePublication,duree,genre));
+
+    public Cd saveCd(String titre, int datePublication, int duree, String genre, boolean dispo) {
+        return cdRepository.save(new Cd(titre, datePublication, duree, genre, dispo));
     }
 
+    public void createEmprunt(Client client, Document document) {
+        Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
+        document.setDisponible(false);
+        client.addEmprunt(emprunt);
+    }
 
+    public void createEmprunt(long clientId, long documentId) {
+        var documentOptional = documentRepository.findById(documentId);
+        var clientOptional = clientRepository.findById(clientId);
+
+        if (documentOptional.isEmpty() || clientOptional.isEmpty()) {
+            return;
+        }
+        var client = clientOptional.get();
+        var document = documentOptional.get();
+
+        Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
+
+        document.setDisponible(false);
+        client.addEmprunt(emprunt);
+    }
 
 }

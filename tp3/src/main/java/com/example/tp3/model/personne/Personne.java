@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 @NoArgsConstructor
-public class Personne {
+public abstract class Personne {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -23,12 +23,5 @@ public class Personne {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", address='" + address + '\'';
-    }
 }
 
