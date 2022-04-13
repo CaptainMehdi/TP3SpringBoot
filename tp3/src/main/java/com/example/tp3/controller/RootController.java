@@ -23,4 +23,12 @@ public class RootController {
         model.addAttribute("h1Text", "La bibliotheque");
         return "index";
     }
+
+    @GetMapping("/clients")
+    public String getClient(Model model) {
+        model.addAttribute("pageTitle", "Mon demo");
+        var clients = es.findAllClient();
+        model.addAttribute("clients", clients);
+        return "clients";
+    }
 }

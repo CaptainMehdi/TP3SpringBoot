@@ -6,10 +6,14 @@ import com.example.tp3.model.document.Document;
 import com.example.tp3.model.document.Dvd;
 import com.example.tp3.model.document.Livre;
 import com.example.tp3.model.personne.Client;
+import com.example.tp3.model.personne.Employe;
 import com.example.tp3.repository.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Component
 public class EmployeService {
@@ -91,4 +95,16 @@ public class EmployeService {
 
     }
 
+    public void retourDocument(Emprunt emprunt){
+        LocalDate today = LocalDate.now();
+        if(emprunt.getDateRetour().compareTo(today) > 0){
+            long differenceEnJour = ChronoUnit.DAYS.between(emprunt.getDateRetour(),today);
+            emprunt.getClient().ajoutDette(differenceEnJour);
+        }
+        emprunt.getDocument().setDisponible(true);
+    }
+
+    public List<Client> findAllClient(){
+        return clientRepository.findAll();
+    }
 }

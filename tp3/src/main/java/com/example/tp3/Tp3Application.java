@@ -56,7 +56,7 @@ public class Tp3Application implements CommandLineRunner {
 
         System.out.println(cs.getDocumentByTitre("d"));
 
-
+        System.out.println(es.findAllClient());
 
     }
 }

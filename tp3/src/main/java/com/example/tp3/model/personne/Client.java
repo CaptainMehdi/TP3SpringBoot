@@ -21,6 +21,7 @@ public class Client extends Personne {
     @ToString.Exclude
     List<Emprunt> listEmprunt = new ArrayList<>();
     private double dette = 0.0;
+    private double MONTANT_DETTE_JOUR = 0.25;
 
     public Client(String nom, String prenom, String adresse) {
         super(nom, prenom, adresse);
@@ -35,5 +36,13 @@ public class Client extends Personne {
         return "Client{" +super.toString()+
                 "dette=" + dette +
                 '}';
+    }
+
+    public void ajoutDette(long differenceJour ){
+        this.dette += MONTANT_DETTE_JOUR * (double) differenceJour;
+    }
+
+    public void retraitDette(double montant){
+        this.dette -= montant;
     }
 }
