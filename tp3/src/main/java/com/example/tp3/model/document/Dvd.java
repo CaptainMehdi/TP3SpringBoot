@@ -14,11 +14,9 @@ public class Dvd extends Document {
     private static final int EMPRUNT_DVD_EN_JOURNEE = 7;
     private final String TYPE ="DVD";
     private int duree;
-    private String genre;
 
-    public Dvd(String titre, int datePublication, int duree, String genre, boolean disponible) {
-        super(titre, datePublication,disponible);
+    public Dvd(String titre, String auteur, int datePublication, String categorie, boolean disponible, int duree) {
+        super(titre, auteur, datePublication, categorie, disponible);
         this.duree = duree;
-        this.genre = genre;
     }
 }

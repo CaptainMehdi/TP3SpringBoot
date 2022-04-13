@@ -40,27 +40,31 @@ public class EmployeService {
         return livreRepository.save(livre);
     }
 
-    public Livre saveLivre(String titre, int datePublication, String auteur, String editeur, int nombrePage, String genre, boolean dispo) {
-        return livreRepository.save(new Livre(titre, datePublication, auteur, editeur, nombrePage, genre, dispo));
+    public Livre saveLivre(String titre, String auteur, int datePublication, String categorie, boolean dispo, String editeur, int nombrePage) {
+        return livreRepository.save(new Livre(titre, auteur, datePublication, categorie, dispo, editeur, nombrePage));
     }
 
     public Dvd saveDvd(Dvd dvd) {
         return dvdRepository.save(dvd);
     }
 
-    public Dvd saveDvd(String titre, int datePublication, int duree, String genre, boolean dispo) {
-        return dvdRepository.save(new Dvd(titre, datePublication, duree, genre, dispo));
+    public Dvd saveDvd(String titre, String auteur, int datePublication, String categorie, boolean dispo, int duree) {
+        return dvdRepository.save(new Dvd(titre, auteur, datePublication, categorie, dispo, duree));
     }
 
     public Cd saveCd(Cd cd) {
         return cdRepository.save(cd);
     }
 
-    public Cd saveCd(String titre, int datePublication, int duree, String genre, boolean dispo) {
-        return cdRepository.save(new Cd(titre, datePublication, duree, genre, dispo));
+    public Cd saveCd(String titre, String auteur, int datePublication, String categorie, boolean dispo, int duree) {
+        return cdRepository.save(new Cd(titre, auteur, datePublication, categorie, dispo, duree));
     }
 
     public void createEmprunt(Client client, Document document) {
+        if (!document.isDisponible()) {
+            System.out.println("Le document est deja emprunte");
+            return;
+        }
         Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
         document.setDisponible(false);
         client.addEmprunt(emprunt);
@@ -76,10 +80,15 @@ public class EmployeService {
         var client = clientOptional.get();
         var document = documentOptional.get();
 
+        if (!document.isDisponible()) {
+            System.out.println("Le document est deja emprunte");
+            return;
+        }
         Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
 
-        document.setDisponible(false);
         client.addEmprunt(emprunt);
+        document.setDisponible(false);
+
     }
 
 }

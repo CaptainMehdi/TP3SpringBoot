@@ -16,13 +16,17 @@ public abstract class Document {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String titre;
-    private LocalDate datePublication;
+    private String auteur;
+    private int datePublication;
     private int dureeEmprunt;
-    private boolean disponible = true;
+    private String categorie;
+    private boolean disponible;
 
-    public Document(String titre, int datePublication, boolean disponible) {
+    public Document(String titre, String auteur, int datePublication, String categorie, boolean disponible) {
         this.titre = titre;
+        this.auteur = auteur;
         this.datePublication = datePublication;
+        this.categorie = categorie;
         this.disponible = disponible;
     }
 }

@@ -7,6 +7,7 @@ import com.example.tp3.model.personne.Client;
 import com.example.tp3.repository.ClientRepository;
 import com.example.tp3.repository.DocumentRepository;
 import com.example.tp3.repository.LivreRepository;
+import com.example.tp3.service.ClientService;
 import com.example.tp3.service.EmployeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +23,9 @@ public class Tp3Application implements CommandLineRunner {
 
     @Autowired
     private EmployeService es;
+
+    @Autowired
+    private ClientService cs;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -41,15 +45,18 @@ public class Tp3Application implements CommandLineRunner {
 
         final Client client = es.saveClient("mehdi", "popo", "39 rue monge");
         final Client client1 = es.saveClient("teo", "dort", "48 rue louge");
-        final Livre livre = es.saveLivre("ded", 2002, "gira", "por", 202, "action", true);
-        final Cd cd = es.saveCd("Mine", 2005, 20, "Action", true);
+        final Livre livre = es.saveLivre("ded", "moncif", 2009, "action", true, "por", 202);
+        final Cd cd = es.saveCd("Mine", "parobol",2005, "Action",true , 20);
 
         es.createEmprunt(client, livre);
 
         es.createEmprunt(client.getId(), livre.getId());
 
         System.out.println(clientRepository.findClientByNom("mehdi"));
-        System.out.println(livreRepository.findById(2L));
+
+        System.out.println(cs.getDocumentByTitre("d"));
+
+
 
     }
 }

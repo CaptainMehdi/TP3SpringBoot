@@ -13,26 +13,20 @@ import java.time.LocalDate;
 public class Livre extends Document {
     private static final int EMPRUNT_LIVRE_EN_JOURNEE = 21;
     private final String TYPE ="LIVRE";
-    private String auteur;
     private String editeur;
     private int nombrePage;
-    private String genre;
 
-    public Livre(String titre, int datePublication, String auteur, String editeur, int nombrePage, String genre, boolean disponible) {
-        super(titre, datePublication,disponible);
-        this.auteur = auteur;
+    public Livre(String titre, String auteur, int datePublication, String categorie, boolean disponible, String editeur, int nombrePage) {
+        super(titre, auteur, datePublication, categorie, disponible);
         this.editeur = editeur;
         this.nombrePage = nombrePage;
-        this.genre = genre;
     }
 
     @Override
     public String toString() {
         return "Livre{" +super.toString()+
-                "auteur='" + auteur + '\'' +
                 ", editeur='" + editeur + '\'' +
                 ", nombrePage=" + nombrePage +
-                ", genre='" + genre + '\'' +
                 '}';
     }
 }

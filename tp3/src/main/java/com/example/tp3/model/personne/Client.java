@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Client extends Personne {
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @ToString.Exclude
     List<Emprunt> listEmprunt = new ArrayList<>();
     private double dette = 0.0;
@@ -25,7 +27,7 @@ public class Client extends Personne {
     }
 
     public void addEmprunt(Emprunt emprunt){
-        listEmprunt.add(emprunt);
+        this.listEmprunt.add(emprunt);
     }
 
     @Override
