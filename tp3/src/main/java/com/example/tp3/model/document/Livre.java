@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Livre extends Document {
     private static final int EMPRUNT_LIVRE_EN_JOURNEE = 21;
-    private final String TYPE ="LIVRE";
+    private final String TYPE = "LIVRE";
     private String editeur;
     private int nombrePage;
 
@@ -24,7 +24,7 @@ public class Livre extends Document {
 
     @Override
     public String toString() {
-        return "Livre{" +super.toString()+
+        return "Livre{" + super.toString() +
                 ", editeur='" + editeur + '\'' +
                 ", nombrePage=" + nombrePage +
                 '}';

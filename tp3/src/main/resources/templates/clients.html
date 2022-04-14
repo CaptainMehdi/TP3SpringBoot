@@ -8,6 +8,7 @@
 <h1>Liste De Clients</h1>
 <table>
     <thead>
+    <th>Id</th>
     <th>Nom</th>
     <th>Prenom</th>
     <th>Adresse</th>
@@ -15,6 +16,7 @@
     <tbody>
         <th:block th:each="client, stat : ${clients}">
             <tr>
+                <td th:text="${client.getId}">Id</td>
                 <td th:text="${client.getNom()}">nom</td>
                 <td th:text="${client.getPrenom()}">prenom</td>
                 <td th:text="${client.getAddress()}">adresse</td>
@@ -22,6 +24,6 @@
         </th:block>
     </tbody>
 </table>
-<a th:href="@{'/clientcreate'}">Nouveau client</a>
+<a th:href="@{'/clientcreate'}">Cree un nouveau client</a>
 </body>
 </html>

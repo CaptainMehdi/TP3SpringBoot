@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Cd extends Document {
     private static final int EMPRUNT_CD_EN_JOURNEE = 14;
-    private final String TYPE ="CD";
+    private final String TYPE = "CD";
     private int duree;
 
     public Cd(String titre, String auteur, int datePublication, String categorie, boolean disponible, int duree) {

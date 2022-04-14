@@ -30,36 +30,36 @@ public class ClientService {
         this.documentRepository = documentRepository;
     }
 
-    public List<Document> getDocumentByTitre(String titre){
+    public List<Document> getDocumentByTitre(String titre) {
         return documentRepository.getDocumentByTitre(titre);
     }
 
-    public List<Document> getDocumentByAuteur(String auteur){
+    public List<Document> getDocumentByAuteur(String auteur) {
         return documentRepository.getDocumentByAuteur(auteur);
     }
 
-    public List<Document> getDocumentByDatePublication(int annee){
+    public List<Document> getDocumentByDatePublication(int annee) {
         return documentRepository.getDocumentByDatePublication(annee);
     }
 
-    public List<Document> getDocumentByCategorie(String categorie){
+    public List<Document> getDocumentByCategorie(String categorie) {
         return documentRepository.getDocumentByCategorie(categorie);
     }
 
-    public Double getDetteClient(Client client){
+    public Double getDetteClient(Client client) {
         return client.getDette();
     }
 
-    public List<Emprunt> getListEmprunt(Client client){
+    public List<Emprunt> getListEmprunt(Client client) {
         return client.getListEmprunt();
     }
 
-    public String getDateDeRetour(Client client, Document document){
-        for(int i =0; i < client.getListEmprunt().size();i++){
-            if(client.getListEmprunt().get(i).getDocument().getId() == document.getId()){
+    public String getDateDeRetour(Client client, Document document) {
+        for (int i = 0; i < client.getListEmprunt().size(); i++) {
+            if (client.getListEmprunt().get(i).getDocument().getId() == document.getId()) {
                 return client.getListEmprunt().get(i).getDateRetour().toString();
             }
         }
-        return "Aucun document a se nom";
+        return "Aucun document a ce nom";
     }
 }

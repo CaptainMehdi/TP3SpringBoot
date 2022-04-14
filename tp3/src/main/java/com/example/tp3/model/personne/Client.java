@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Client extends Personne {
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     List<Emprunt> listEmprunt = new ArrayList<>();
     private double dette = 0.0;
@@ -27,22 +27,22 @@ public class Client extends Personne {
         super(nom, prenom, adresse);
     }
 
-    public void addEmprunt(Emprunt emprunt){
+    public void addEmprunt(Emprunt emprunt) {
         this.listEmprunt.add(emprunt);
     }
 
     @Override
     public String toString() {
-        return "Client{" +super.toString()+
+        return "Client{" + super.toString() +
                 "dette=" + dette +
                 '}';
     }
 
-    public void ajoutDette(long differenceJour ){
+    public void ajoutDette(long differenceJour) {
         this.dette += MONTANT_DETTE_JOUR * (double) differenceJour;
     }
 
-    public void retraitDette(double montant){
+    public void retraitDette(double montant) {
         this.dette -= montant;
     }
 }

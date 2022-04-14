@@ -6,12 +6,11 @@ import com.example.tp3.model.document.Document;
 import com.example.tp3.model.document.Dvd;
 import com.example.tp3.model.document.Livre;
 import com.example.tp3.model.personne.Client;
-import com.example.tp3.model.personne.Employe;
 import com.example.tp3.repository.*;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +23,15 @@ public class EmployeService {
     private DvdRepository dvdRepository;
     private CdRepository cdRepository;
     private DocumentRepository documentRepository;
+    private EmpruntRepository empruntRepository;
 
-    public EmployeService(ClientRepository clientRepository, LivreRepository livreRepository, DvdRepository dvdRepository, CdRepository cdRepository, DocumentRepository documentRepository) {
+    public EmployeService(ClientRepository clientRepository, LivreRepository livreRepository, DvdRepository dvdRepository, CdRepository cdRepository, DocumentRepository documentRepository, EmpruntRepository empruntRepository) {
         this.clientRepository = clientRepository;
         this.livreRepository = livreRepository;
         this.dvdRepository = dvdRepository;
         this.cdRepository = cdRepository;
         this.documentRepository = documentRepository;
+        this.empruntRepository = empruntRepository;
     }
 
     public Client saveClient(Client client) {
@@ -65,6 +66,7 @@ public class EmployeService {
         return cdRepository.save(new Cd(titre, auteur, datePublication, categorie, dispo, duree));
     }
 
+    @Transactional
     public void createEmprunt(Client client, Document document) {
         if (!document.isDisponible()) {
             System.out.println("Le document est deja emprunte");
@@ -75,6 +77,7 @@ public class EmployeService {
         client.addEmprunt(emprunt);
     }
 
+    @Transactional
     public void createEmprunt(long clientId, long documentId) {
         var documentOptional = documentRepository.findById(documentId);
         var clientOptional = clientRepository.findById(clientId);
@@ -96,20 +99,33 @@ public class EmployeService {
 
     }
 
-    public void retourDocument(Emprunt emprunt){
+    @Transactional
+    public void retourDocument(Emprunt emprunt) {
         LocalDate today = LocalDate.now();
-        if(emprunt.getDateRetour().compareTo(today) > 0){
-            long differenceEnJour = ChronoUnit.DAYS.between(emprunt.getDateRetour(),today);
+        if (emprunt.getDateRetour().compareTo(today) > 0) {
+            long differenceEnJour = ChronoUnit.DAYS.between(emprunt.getDateRetour(), today);
             emprunt.getClient().ajoutDette(differenceEnJour);
         }
         emprunt.getDocument().setDisponible(true);
     }
 
-    public List<Client> findAllClient(){
+    public List<Client> findAllClient() {
         return clientRepository.findAll();
     }
 
-    public Optional<Client> findClientById(long id){return clientRepository.findById(id);}
+    public Optional<Client> findClientById(long id) {
+        return clientRepository.findById(id);
+    }
 
-    public List<Livre> findAllLivre(){return livreRepository.findAll();}
+    public List<Livre> findAllLivre() {
+        return livreRepository.findAll();
+    }
+
+    public Optional<Livre> findLivreById(long id) {
+        return livreRepository.findById(id);
+    }
+
+    public List<Emprunt> findAllEmprunt() {
+        return empruntRepository.findAll();
+    }
 }

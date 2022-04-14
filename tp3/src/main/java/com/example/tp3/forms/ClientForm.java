@@ -19,11 +19,11 @@ public class ClientForm {
         this.adresse = adresse;
     }
 
-    public ClientForm(){
+    public ClientForm() {
         this(new Client());
     }
 
-    public ClientForm(Client client){
+    public ClientForm(Client client) {
         this(Long.toString(client.getId()),
                 client.getNom(),
                 client.getPrenom(),
@@ -37,16 +37,17 @@ public class ClientForm {
             oldId = Long.parseLong(id);
             if (oldId > 0)
                 client.setId(oldId);
-        } catch (NumberFormatException e){}
+        } catch (NumberFormatException e) {
+        }
 
         return client;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Dvd extends Document {
     private static final int EMPRUNT_DVD_EN_JOURNEE = 7;
-    private final String TYPE ="DVD";
+    private final String TYPE = "DVD";
     private int duree;
 
     public Dvd(String titre, String auteur, int datePublication, String categorie, boolean disponible, int duree) {

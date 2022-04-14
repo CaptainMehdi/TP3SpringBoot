@@ -46,7 +46,7 @@ public class Tp3Application implements CommandLineRunner {
         final Client client = es.saveClient("mehdi", "popo", "39 rue monge");
         final Client client1 = es.saveClient("teo", "dort", "48 rue louge");
         final Livre livre = es.saveLivre("ded", "moncif", 2009, "action", true, "por", 202);
-        final Cd cd = es.saveCd("Mine", "parobol",2005, "Action",true , 20);
+        final Cd cd = es.saveCd("Mine", "parobol", 2005, "Action", true, 20);
 
         es.createEmprunt(client, livre);
 

@@ -8,6 +8,7 @@
 <h1>Listes des livres</h1>
 <table>
   <thead>
+  <th>ID</th>
   <th>Titre</th>
   <th>Auteur</th>
   <th>Annee de Publication</th>
@@ -19,6 +20,7 @@
   <tbody>
   <th:block th:each="livre, stat : ${livres}">
     <tr>
+      <td th:text="${livre.getId()}">id</td>
       <td th:text="${livre.getTitre()}">titre</td>
       <td th:text="${livre.getAuteur()}">auteur</td>
       <td th:text="${livre.getDatePublication()}">publication</td>
@@ -31,5 +33,6 @@
   </th:block>
   </tbody>
 </table>
+<a th:href="@{'/livrecreate'}">Cree un nouveau livre</a>
 </body>
 </html>

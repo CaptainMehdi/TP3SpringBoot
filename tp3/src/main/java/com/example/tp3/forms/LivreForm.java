@@ -3,6 +3,8 @@ package com.example.tp3.forms;
 import com.example.tp3.model.document.Livre;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class LivreForm {
     private String id;
@@ -25,7 +27,7 @@ public class LivreForm {
         this.nombrePage = nombrePage;
     }
 
-    public LivreForm(){
+    public LivreForm() {
         this(new Livre());
     }
 
@@ -38,6 +40,19 @@ public class LivreForm {
                 livre.isDisponible(),
                 livre.getEditeur(),
                 livre.getNombrePage());
+    }
+
+    public Livre toLivre() {
+        final Livre livre = new Livre(titre, auteur, datePublication, categorie, disponible, editeur, nombrePage);
+        long oldId;
+        try {
+            oldId = Long.parseLong(id);
+            if (oldId > 0)
+                livre.setId(oldId);
+        } catch (NumberFormatException e) {
+        }
+
+        return livre;
     }
 }
 

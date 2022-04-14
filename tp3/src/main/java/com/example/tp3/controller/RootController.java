@@ -1,6 +1,8 @@
 package com.example.tp3.controller;
 
 import com.example.tp3.forms.ClientForm;
+import com.example.tp3.forms.LivreForm;
+import com.example.tp3.model.document.Livre;
 import com.example.tp3.model.personne.Client;
 import com.example.tp3.service.EmployeService;
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,17 +47,17 @@ public class RootController {
         return "clients";
     }
 
-    @GetMapping(value={ "/clientcreate"})
+    @GetMapping(value = {"/clientcreate"})
     public String getClientCreate(Model model) {
         var clientForm = new ClientForm();
         model.addAttribute("clientForm", clientForm);
         return "/clientEdit";
     }
 
-    @PostMapping(value = { "/clientcreate"})
+    @PostMapping(value = {"/clientcreate"})
     public RedirectView clientPost(@ModelAttribute ClientForm clientForm,
-                                 BindingResult errors,
-                                 RedirectAttributes redirectAttributes) {
+                                   BindingResult errors,
+                                   RedirectAttributes redirectAttributes) {
         logger.info("client: " + clientForm);
         final Client client = es.saveClient(clientForm.toClient());
         clientForm.setId(Long.toString(client.getId()));
@@ -68,15 +71,15 @@ public class RootController {
         return redirectView;
     }
 
-    @GetMapping(value = { "/clientEdit/{id}"})
+    @GetMapping(value = {"/clientEdit/{id}"})
     public String getClientRequest(@ModelAttribute ClientForm clientForm,
-                                 Model model,
-                                 @PathVariable("id") String id) {
+                                   Model model,
+                                   @PathVariable("id") String id) {
         logger.info("Into getProfRequest with id " + id);
         long clientId = getIdFromString(id);
         final Optional<Client> clientById = es.findClientById(clientId);
         clientForm = new ClientForm();
-        if(clientById.isPresent()) {
+        if (clientById.isPresent()) {
             clientForm = new ClientForm(clientById.get());
         }
         model.addAttribute("clientForm", clientForm);
@@ -92,10 +95,59 @@ public class RootController {
         return "livres";
     }
 
+    @GetMapping(value = {"/livrecreate"})
+    public String getLivreCreate(Model model) {
+        var livreForm = new LivreForm();
+        model.addAttribute("livreForm", livreForm);
+        return "/livreEdit";
+    }
+
+    @PostMapping(value = {"/livrecreate"})
+    public RedirectView clientPost(@Validated @ModelAttribute LivreForm livreForm,
+                                   BindingResult errors,
+                                   RedirectAttributes redirectAttributes) {
+        logger.info("livre: " + livreForm);
+        final Livre livre = es.saveLivre(livreForm.toLivre());
+        livreForm.setId(Long.toString(livre.getId()));
+
+        redirectAttributes.addFlashAttribute("livreForm", livreForm);
+        redirectAttributes.addAttribute("id", livreForm.getId());
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setContextRelative(true);
+        redirectView.setUrl("/livreEdit/{id}");
+        return redirectView;
+    }
+
+    @GetMapping(value = {"/livreEdit/{id}"})
+    public String getClientRequest(@ModelAttribute LivreForm livreForm,
+                                   Model model,
+                                   @PathVariable("id") String id) {
+        logger.info("Into getProfRequest with id " + id);
+        long livreId = getIdFromString(id);
+        final Optional<Livre> livreById = es.findLivreById(livreId);
+        livreForm = new LivreForm();
+        if (livreById.isPresent()) {
+            livreForm = new LivreForm(livreById.get());
+        }
+        model.addAttribute("livreForm", livreForm);
+        return "/livreEdit";
+    }
+
+    //EMPRUNT
+    @GetMapping("/emprunts")
+    public String getEmprunts(Model model) {
+        model.addAttribute("pageTitle", "Mon demo");
+        var emprunts = es.findAllEmprunt();
+        model.addAttribute("emprunts", emprunts);
+        return "emprunts";
+    }
+
     private long getIdFromString(String id) {
         try {
             return Long.parseLong(id);
-        } catch(NumberFormatException e) {}
+        } catch (NumberFormatException e) {
+        }
         return 0;
     }
 }

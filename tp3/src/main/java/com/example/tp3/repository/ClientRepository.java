@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ClientRepository extends JpaRepository<Client,Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findClientByNom(String nom);
 
     @Query("select c.nom from Client c where c.nom like %:clientNom%")
-    List<Object[]> findByAsArray(@Param("clientNom")String text);
+    List<Object[]> findByAsArray(@Param("clientNom") String text);
 }
