@@ -17,6 +17,9 @@ import java.util.Optional;
 
 @Component
 public class EmployeService {
+    private final int EMPRUNT_LIVRE_EN_JOURNEE = 21;
+    private final int EMPRUNT_CD_EN_JOURNEE = 14;
+    private final int EMPRUNT_DVD_EN_JOURNEE = 7;
 
     private ClientRepository clientRepository;
     private LivreRepository livreRepository;
@@ -67,36 +70,40 @@ public class EmployeService {
     }
 
     @Transactional
-    public void createEmprunt(Client client, Document document) {
+    public Emprunt createEmprunt(Client client, Document document) throws Exception {
         if (!document.isDisponible()) {
-            System.out.println("Le document est deja emprunte");
-            return;
+            throw new Exception("Le document est deja emprunte");
         }
-        Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
+        setDureeDocument(document);
+
+        Emprunt emprunt = new Emprunt(LocalDate.now(), client, document);
         document.setDisponible(false);
         client.addEmprunt(emprunt);
+        return emprunt;
     }
 
     @Transactional
-    public void createEmprunt(long clientId, long documentId) {
+    public Emprunt createEmprunt(long clientId, long documentId) throws Exception {
         var documentOptional = documentRepository.findById(documentId);
         var clientOptional = clientRepository.findById(clientId);
 
         if (documentOptional.isEmpty() || clientOptional.isEmpty()) {
-            return;
+            throw new Exception("Pas le bon id de document ou du client");
         }
         var client = clientOptional.get();
         var document = documentOptional.get();
 
         if (!document.isDisponible()) {
-            System.out.println("Le document est deja emprunte");
-            return;
+            throw new Exception("Le document est deja emprunte");
         }
-        Emprunt emprunt = new Emprunt(LocalDate.now(), LocalDate.now().plusDays(document.getDureeEmprunt()), client, document);
+
+        setDureeDocument(document);
+        Emprunt emprunt = new Emprunt(LocalDate.now(), client, document);
 
         client.addEmprunt(emprunt);
         document.setDisponible(false);
 
+        return emprunt;
     }
 
     @Transactional
@@ -107,6 +114,16 @@ public class EmployeService {
             emprunt.getClient().ajoutDette(differenceEnJour);
         }
         emprunt.getDocument().setDisponible(true);
+    }
+
+    public void setDureeDocument(Document document){
+        if(livreRepository.findById(document.getId()).isPresent()){
+            document.setDureeEmprunt(EMPRUNT_LIVRE_EN_JOURNEE);
+        }else if(dvdRepository.findById(document.getId()).isPresent()){
+            document.setDureeEmprunt(EMPRUNT_DVD_EN_JOURNEE);
+        }else {
+            document.setDureeEmprunt(EMPRUNT_CD_EN_JOURNEE);
+        }
     }
 
     public List<Client> findAllClient() {
@@ -128,4 +145,9 @@ public class EmployeService {
     public List<Emprunt> findAllEmprunt() {
         return empruntRepository.findAll();
     }
+
+    public Optional<Emprunt> findEmpruntById(long empruntId) {
+        return empruntRepository.findById(empruntId);
+    }
+
 }

@@ -24,7 +24,7 @@ public class Emprunt {
     @OneToOne(cascade = CascadeType.ALL)
     private Document document;
 
-    public Emprunt(LocalDate dateEmprunt, LocalDate dateRetour, Client client, Document document) {
+    public Emprunt(LocalDate dateEmprunt, Client client, Document document) {
         this.dateEmprunt = dateEmprunt;
         this.dateRetour = dateRetour;
         this.client = client;

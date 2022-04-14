@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class Dvd extends Document {
-    private static final int EMPRUNT_DVD_EN_JOURNEE = 7;
     private final String TYPE = "DVD";
     private int duree;
 
@@ -19,4 +18,5 @@ public class Dvd extends Document {
         super(titre, auteur, datePublication, categorie, disponible);
         this.duree = duree;
     }
+
 }

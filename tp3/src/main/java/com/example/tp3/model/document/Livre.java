@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class Livre extends Document {
-    private static final int EMPRUNT_LIVRE_EN_JOURNEE = 21;
     private final String TYPE = "LIVRE";
     private String editeur;
     private int nombrePage;
@@ -21,6 +20,7 @@ public class Livre extends Document {
         this.editeur = editeur;
         this.nombrePage = nombrePage;
     }
+
 
     @Override
     public String toString() {

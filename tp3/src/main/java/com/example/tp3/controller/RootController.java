@@ -1,7 +1,9 @@
 package com.example.tp3.controller;
 
 import com.example.tp3.forms.ClientForm;
+import com.example.tp3.forms.EmpruntForm;
 import com.example.tp3.forms.LivreForm;
+import com.example.tp3.model.Emprunt;
 import com.example.tp3.model.document.Livre;
 import com.example.tp3.model.personne.Client;
 import com.example.tp3.service.EmployeService;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -142,6 +143,47 @@ public class RootController {
         model.addAttribute("emprunts", emprunts);
         return "emprunts";
     }
+
+    @GetMapping(value = {"/empruntcreate"})
+    public String getEmpruntCreate(Model model) {
+        var empruntForm = new EmpruntForm();
+        model.addAttribute("empruntForm", empruntForm);
+        return "/empruntEdit";
+    }
+
+    @PostMapping(value = {"/empruntcreate"})
+    public RedirectView clientPost(@ModelAttribute @Validated EmpruntForm empruntForm,
+                                   BindingResult errors,
+                                   RedirectAttributes redirectAttributes) throws Exception {
+        logger.info("emprunt: " + empruntForm);
+        final Emprunt emprunt = es.createEmprunt(es.findClientById(empruntForm.getClientId()).get(),
+                es.findLivreById(empruntForm.getLivreId()).get());
+        empruntForm.setId(Long.toString(emprunt.getId()));
+
+        redirectAttributes.addFlashAttribute("empruntForm", empruntForm);
+        redirectAttributes.addAttribute("id", empruntForm.getId());
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setContextRelative(true);
+        redirectView.setUrl("/empruntEdit/{id}");
+        return redirectView;
+    }
+
+    @GetMapping(value = {"/empruntEdit/{id}"})
+    public String getClientRequest(@ModelAttribute EmpruntForm empruntForm,
+                                   Model model,
+                                   @PathVariable("id") String id) {
+        logger.info("Into getProfRequest with id " + id);
+        long empruntId = getIdFromString(id);
+        final Optional<Emprunt> empruntById = es.findEmpruntById(empruntId);
+        empruntForm = new EmpruntForm();
+        if (empruntById.isPresent()) {
+            empruntForm = new EmpruntForm(empruntById.get());
+        }
+        model.addAttribute("empruntForm", empruntForm);
+        return "/empruntEdit";
+    }
+
 
     private long getIdFromString(String id) {
         try {

@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class Cd extends Document {
-    private static final int EMPRUNT_CD_EN_JOURNEE = 14;
     private final String TYPE = "CD";
     private int duree;
 
@@ -18,4 +17,5 @@ public class Cd extends Document {
         super(titre, auteur, datePublication, categorie, disponible);
         this.duree = duree;
     }
+
 }
