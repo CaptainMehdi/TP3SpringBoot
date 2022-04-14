@@ -1,9 +1,11 @@
 package com.example.tp3.forms;
 
 import com.example.tp3.model.personne.Client;
+import lombok.Data;
 
 import java.time.format.DateTimeFormatter;
 
+@Data
 public class ClientForm {
     private String id;
     private String nom;
