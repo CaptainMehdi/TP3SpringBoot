@@ -35,6 +35,7 @@ public class RootController {
         return "index";
     }
 
+    //CLIENT
     @GetMapping("/clients")
     public String getClient(Model model) {
         model.addAttribute("pageTitle", "Mon demo");
@@ -80,6 +81,15 @@ public class RootController {
         }
         model.addAttribute("clientForm", clientForm);
         return "/clientEdit";
+    }
+
+    //LIVRE
+    @GetMapping("/livres")
+    public String getLivre(Model model) {
+        model.addAttribute("pageTitle", "Mon demo");
+        var livres = es.findAllLivre();
+        model.addAttribute("livres", livres);
+        return "livres";
     }
 
     private long getIdFromString(String id) {

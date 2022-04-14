@@ -110,4 +110,6 @@ public class EmployeService {
     }
 
     public Optional<Client> findClientById(long id){return clientRepository.findById(id);}
+
+    public List<Livre> findAllLivre(){return livreRepository.findAll();}
 }
