@@ -1,12 +1,15 @@
 package com.example.tp3.service;
 
+import com.example.tp3.model.Emprunt;
 import com.example.tp3.model.document.Document;
 import com.example.tp3.model.document.Livre;
+import com.example.tp3.model.personne.Client;
 import com.example.tp3.repository.*;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.print.Doc;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,5 +44,22 @@ public class ClientService {
 
     public List<Document> getDocumentByCategorie(String categorie){
         return documentRepository.getDocumentByCategorie(categorie);
+    }
+
+    public Double getDetteClient(Client client){
+        return client.getDette();
+    }
+
+    public List<Emprunt> getListEmprunt(Client client){
+        return client.getListEmprunt();
+    }
+
+    public String getDateDeRetour(Client client, Document document){
+        for(int i =0; i < client.getListEmprunt().size();i++){
+            if(client.getListEmprunt().get(i).getDocument().getId() == document.getId()){
+                return client.getListEmprunt().get(i).getDateRetour().toString();
+            }
+        }
+        return "Aucun document a se nom";
     }
 }

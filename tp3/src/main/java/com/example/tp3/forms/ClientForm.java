@@ -1,24 +1,50 @@
 package com.example.tp3.forms;
 
+import com.example.tp3.model.personne.Client;
+
 import java.time.format.DateTimeFormatter;
 
 public class ClientForm {
-    private static DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private int age;
-    private String dateOfBirth;
-    private boolean active;
+    private String nom;
+    private String prenom;
+    private String adresse;
 
-    public ClientForm(String id, String firstName, String lastName, String email, int age, String dateOfBirth, boolean active) {
+    public ClientForm(String id, String nom, String prenom, String adresse) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-        this.dateOfBirth = dateOfBirth;
-        this.active = active;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+    }
+
+    public ClientForm(){
+        this(new Client());
+    }
+
+    public ClientForm(Client client){
+        this(Long.toString(client.getId()),
+                client.getNom(),
+                client.getPrenom(),
+                client.getAddress());
+    }
+
+    public Client toClient() {
+        final Client client = new Client(nom, prenom, adresse);
+        long oldId;
+        try {
+            oldId = Long.parseLong(id);
+            if (oldId > 0)
+                client.setId(oldId);
+        } catch (NumberFormatException e){}
+
+        return client;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

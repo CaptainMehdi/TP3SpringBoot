@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EmployeService {
@@ -107,4 +108,6 @@ public class EmployeService {
     public List<Client> findAllClient(){
         return clientRepository.findAll();
     }
+
+    public Optional<Client> findClientById(long id){return clientRepository.findById(id);}
 }
