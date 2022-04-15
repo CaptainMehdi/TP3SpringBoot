@@ -39,7 +39,8 @@ public class Client extends Personne {
     }
 
     public void ajoutDette(long differenceJour) {
-        this.dette += MONTANT_DETTE_JOUR * (double) differenceJour;
+        double tmp = this.dette+MONTANT_DETTE_JOUR * (double) differenceJour;
+        setDette(tmp);
     }
 
     public void retraitDette(double montant) {

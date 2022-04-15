@@ -77,8 +77,9 @@ public class EmployeService {
         setDureeDocument(document);
         Emprunt emprunt = new Emprunt(LocalDate.now(), client, document);
         emprunt.setDateRetour(LocalDate.now().plusDays(document.getDureeEmprunt()));
-        document.setDisponible(false);
         client.addEmprunt(emprunt);
+        document.setDisponible(false);
+
         return emprunt;
     }
 
@@ -109,11 +110,14 @@ public class EmployeService {
     @Transactional
     public void retourDocument(Emprunt emprunt) {
         LocalDate today = LocalDate.now();
-        if (emprunt.getDateRetour().compareTo(today) > 0) {
+        if (emprunt.getDateRetour().compareTo(today) < 0) {
             long differenceEnJour = ChronoUnit.DAYS.between(emprunt.getDateRetour(), today);
             emprunt.getClient().ajoutDette(differenceEnJour);
         }
         emprunt.getDocument().setDisponible(true);
+
+        clientRepository.save(emprunt.getClient());
+        empruntRepository.save(emprunt);
     }
 
     public void setDureeDocument(Document document) {
