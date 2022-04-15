@@ -1,15 +1,29 @@
 package com.example.tp3.forms;
 
 import com.example.tp3.model.personne.Client;
+import com.sun.istack.NotNull;
 import lombok.Data;
 
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
 
 @Data
 public class ClientForm {
     private String id;
+
+    @NotNull
+    @NotBlank
     private String nom;
+
+    @NotNull
+    @NotBlank
     private String prenom;
+
+    @NotNull
+    @Email
+    @NotBlank
     private String adresse;
 
     public ClientForm(String id, String nom, String prenom, String adresse) {

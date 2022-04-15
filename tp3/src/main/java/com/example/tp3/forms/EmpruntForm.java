@@ -8,9 +8,11 @@ import com.example.tp3.repository.ClientRepository;
 import com.example.tp3.repository.DocumentRepository;
 import com.example.tp3.repository.LivreRepository;
 import com.example.tp3.service.EmployeService;
+import com.sun.istack.NotNull;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
 
 
@@ -18,10 +20,17 @@ import java.time.format.DateTimeFormatter;
 public class EmpruntForm {
     private static DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String id;
+    @NotNull
     private String dateEmprunt;
+
     private String dateRetour;
+
+    @NotNull
     private int clientId;
+
+    @NotNull
     private int livreId;
+
     private Client client;
     private Document document;
 
@@ -42,9 +51,5 @@ public class EmpruntForm {
                 (int) emprunt.getDocument().getId());
     }
 
-    public EmpruntForm(Client client, Document document) {
-        this.client = client;
-        this.document = document;
-    }
 
 }

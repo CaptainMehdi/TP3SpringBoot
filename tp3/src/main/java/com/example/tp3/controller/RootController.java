@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -56,20 +57,20 @@ public class RootController {
     }
 
     @PostMapping(value = {"/clientcreate"})
-    public RedirectView clientPost(@ModelAttribute ClientForm clientForm,
-                                   BindingResult errors,
-                                   RedirectAttributes redirectAttributes) {
+    public String clientPost(@Valid @ModelAttribute ClientForm clientForm,
+                             BindingResult errors,
+                             RedirectAttributes redirectAttributes) {
         logger.info("client: " + clientForm);
+        if (errors.hasErrors()) {
+            return "/clientEdit";
+        }
         final Client client = es.saveClient(clientForm.toClient());
         clientForm.setId(Long.toString(client.getId()));
 
         redirectAttributes.addFlashAttribute("clientForm", clientForm);
         redirectAttributes.addAttribute("id", clientForm.getId());
 
-        RedirectView redirectView = new RedirectView();
-        redirectView.setContextRelative(true);
-        redirectView.setUrl("/clientEdit/{id}");
-        return redirectView;
+        return "redirect:/clientEdit/{id}";
     }
 
     @GetMapping(value = {"/clientEdit/{id}"})
@@ -104,20 +105,21 @@ public class RootController {
     }
 
     @PostMapping(value = {"/livrecreate"})
-    public RedirectView clientPost(@Validated @ModelAttribute LivreForm livreForm,
-                                   BindingResult errors,
-                                   RedirectAttributes redirectAttributes) {
+    public String clientPost(@Valid @ModelAttribute LivreForm livreForm,
+                             BindingResult errors,
+                             RedirectAttributes redirectAttributes) {
         logger.info("livre: " + livreForm);
+        if (errors.hasErrors()) {
+            return "/livreEdit";
+        }
         final Livre livre = es.saveLivre(livreForm.toLivre());
         livreForm.setId(Long.toString(livre.getId()));
 
         redirectAttributes.addFlashAttribute("livreForm", livreForm);
         redirectAttributes.addAttribute("id", livreForm.getId());
 
-        RedirectView redirectView = new RedirectView();
-        redirectView.setContextRelative(true);
-        redirectView.setUrl("/livreEdit/{id}");
-        return redirectView;
+        return "redirect:/livreEdit/{id}";
+
     }
 
     @GetMapping(value = {"/livreEdit/{id}"})
@@ -152,10 +154,13 @@ public class RootController {
     }
 
     @PostMapping(value = {"/empruntcreate"})
-    public RedirectView clientPost(@ModelAttribute @Validated EmpruntForm empruntForm,
-                                   BindingResult errors,
-                                   RedirectAttributes redirectAttributes) throws Exception {
+    public String clientPost(@Valid @ModelAttribute @Validated EmpruntForm empruntForm,
+                             BindingResult errors,
+                             RedirectAttributes redirectAttributes) throws Exception {
         logger.info("emprunt: " + empruntForm);
+        if (errors.hasErrors()) {
+            return "/empruntEdit";
+        }
         final Emprunt emprunt = es.createEmprunt(es.findClientById(empruntForm.getClientId()).get(),
                 es.findLivreById(empruntForm.getLivreId()).get());
         empruntForm.setId(Long.toString(emprunt.getId()));
@@ -163,10 +168,8 @@ public class RootController {
         redirectAttributes.addFlashAttribute("empruntForm", empruntForm);
         redirectAttributes.addAttribute("id", empruntForm.getId());
 
-        RedirectView redirectView = new RedirectView();
-        redirectView.setContextRelative(true);
-        redirectView.setUrl("/empruntEdit/{id}");
-        return redirectView;
+        return "redirect:/empruntEdit/{id}";
+
     }
 
     @GetMapping(value = {"/empruntEdit/{id}"})

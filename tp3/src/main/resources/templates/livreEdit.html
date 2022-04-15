@@ -12,18 +12,26 @@
         <tr>
             <td><label>Titre</label></td>
             <td><input type="text" th:field="*{titre}" /></td>
+            <td th:if="${#fields.hasErrors('titre')}"/>Titre invalide</td>
+
         </tr>
         <tr>
             <td><label>Auteur</label></td>
             <td><input type="text" th:field="*{auteur}" /></td>
+            <td th:if="${#fields.hasErrors('dateEmprunt')}"/>Auteur invalide</td>
+
         </tr>
         <tr>
             <td><label>Anne publication</label></td>
             <td><input type="number" th:field="*{datePublication}" /></td>
+            <td th:if="${#fields.hasErrors('datePublication')}"/>Date de Publication invalide</td>
+
         </tr>
         <tr>
             <td><label>Categorie</label></td>
             <td><input type="text" th:field="*{categorie}" /></td>
+            <td th:if="${#fields.hasErrors('categorie')}"/>Categorie invalide</td>
+
         </tr>
         <tr>
             <td><label>Disponibilite</label></td>
@@ -32,10 +40,13 @@
         <tr>
             <td><label>Editeur</label></td>
             <td><input type="text" th:field="*{editeur}" /></td>
+            <td th:if="${#fields.hasErrors('editeur')}"/>Editeur invalide</td>
         </tr>
         <tr>
             <td><label>Nombre De Page</label></td>
             <td><input type="number" th:field="*{nombrePage}" /></td>
+            <td th:if="${#fields.hasErrors('nombrePage')}"/>Nombre de page invalide</td>
+
         </tr>
         <tr>
             <td><input type="submit" value="Sauve" /></td>

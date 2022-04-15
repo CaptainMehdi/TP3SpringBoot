@@ -11,14 +11,17 @@
         <tr>
             <td><label>DateEmprunt</label></td>
             <td><input type="date" th:field="*{dateEmprunt}"/></td>
+            <td th:if="${#fields.hasErrors('dateEmprunt')}"/>Date Emprunt invalide</td>
         </tr>
         <tr>
             <td><label>Id du Client</label></td>
             <td><input type="number" th:field="*{clientId}"/></td>
+            <td th:if="${#fields.hasErrors('clientId')}"/>Ne peut pas etre vide</td>
         </tr>
         <tr>
             <td><label>Id du Livre</label></td>
             <td><input type="number" th:field="*{livreId}"/></td>
+            <td th:if="${#fields.hasErrors('livreId')}"/>Ne peut pas etre vide</td>
         </tr>
         <tr>
             <td><input type="submit" value="Sauve" /></td>

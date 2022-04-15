@@ -26,7 +26,6 @@ public class Emprunt {
 
     public Emprunt(LocalDate dateEmprunt, Client client, Document document) {
         this.dateEmprunt = dateEmprunt;
-        this.dateRetour = dateRetour;
         this.client = client;
         this.document = document;
     }

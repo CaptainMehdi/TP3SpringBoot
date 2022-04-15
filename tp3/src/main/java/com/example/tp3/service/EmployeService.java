@@ -116,12 +116,12 @@ public class EmployeService {
         emprunt.getDocument().setDisponible(true);
     }
 
-    public void setDureeDocument(Document document){
-        if(livreRepository.findById(document.getId()).isPresent()){
+    public void setDureeDocument(Document document) {
+        if (livreRepository.findById(document.getId()).isPresent()) {
             document.setDureeEmprunt(EMPRUNT_LIVRE_EN_JOURNEE);
-        }else if(dvdRepository.findById(document.getId()).isPresent()){
+        } else if (dvdRepository.findById(document.getId()).isPresent()) {
             document.setDureeEmprunt(EMPRUNT_DVD_EN_JOURNEE);
-        }else {
+        } else {
             document.setDureeEmprunt(EMPRUNT_CD_EN_JOURNEE);
         }
     }

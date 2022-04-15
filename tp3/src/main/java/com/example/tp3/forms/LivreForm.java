@@ -3,17 +3,36 @@ package com.example.tp3.forms;
 import com.example.tp3.model.document.Livre;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 public class LivreForm {
     private String id;
+
+    @NotNull
+    @NotBlank
     private String titre;
+
+    @NotNull
+    @NotBlank
     private String auteur;
+
+    @NotNull
     private int datePublication;
+
+    @NotNull
+    @NotBlank
     private String categorie;
+
     private boolean disponible;
+
+    @NotNull
+    @NotBlank
     private String editeur;
+
+    @NotNull
     private int nombrePage;
 
     public LivreForm(String id, String titre, String auteur, int datePublication, String categorie, boolean disponible, String editeur, int nombrePage) {
