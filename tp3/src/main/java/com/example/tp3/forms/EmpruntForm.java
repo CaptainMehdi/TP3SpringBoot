@@ -50,6 +50,4 @@ public class EmpruntForm {
                 (int) emprunt.getClient().getId(),
                 (int) emprunt.getDocument().getId());
     }
-
-
 }

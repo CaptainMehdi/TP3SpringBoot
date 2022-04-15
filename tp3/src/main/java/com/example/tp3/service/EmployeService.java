@@ -75,8 +75,8 @@ public class EmployeService {
             throw new Exception("Le document est deja emprunte");
         }
         setDureeDocument(document);
-
         Emprunt emprunt = new Emprunt(LocalDate.now(), client, document);
+        emprunt.setDateRetour(LocalDate.now().plusDays(document.getDureeEmprunt()));
         document.setDisponible(false);
         client.addEmprunt(emprunt);
         return emprunt;
@@ -99,7 +99,7 @@ public class EmployeService {
 
         setDureeDocument(document);
         Emprunt emprunt = new Emprunt(LocalDate.now(), client, document);
-
+        emprunt.setDateRetour(LocalDate.now().plusDays(document.getDureeEmprunt()));
         client.addEmprunt(emprunt);
         document.setDisponible(false);
 

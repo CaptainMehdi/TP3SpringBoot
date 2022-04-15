@@ -28,5 +28,10 @@ public class Emprunt {
         this.dateEmprunt = dateEmprunt;
         this.client = client;
         this.document = document;
+        dateRetour = null;
+    }
+
+    public LocalDate getDateRetour() {
+        return dateRetour;
     }
 }
